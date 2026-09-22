@@ -1,8 +1,57 @@
-(function() {
+(function () {
     const PROXY_URL = window.GithubCardProxy || null;
     const TOKEN = window.GithubCardToken || null;
 
     const CACHE_EXPIRY = 12 * 60 * 60 * 1000;
+
+    const LANGUAGE_COLORS = {
+        JavaScript: '#f1e05a',
+        TypeScript: '#3178c6',
+        Python: '#3572A5',
+        CSS: '#563d7c',
+        HTML: '#e34c26',
+        Vue: '#41b883',
+        Java: '#b07219',
+        Go: '#00ADD8',
+        Rust: '#dea584',
+        PHP: '#4F5D95',
+        Shell: '#89e051',
+        C: '#555555',
+        'C++': '#f34b7d',
+        'C#': '#178600',
+        Ruby: '#701516',
+        Swift: '#F05138',
+        Kotlin: '#A97BFF',
+        Dart: '#00B4AB',
+        React: '#61dafb',
+        Markdown: '#083fa1',
+        JSON: '#292929',
+        SQL: '#e38c00',
+        Dockerfile: '#384d54',
+        GraphQL: '#e10098',
+        Lua: '#000080',
+        R: '#198ce7',
+        'Objective-C': '#438eff',
+        Perl: '#0298c3',
+        Assembly: '#6E4C13',
+        'Jupyter Notebook': '#DA5B0B',
+        SCSS: '#c6538c',
+        Less: '#1d365d',
+        CoffeeScript: '#244776',
+        Angular: '#dd0031',
+        Svelte: '#ff3e00',
+        'Visual Basic .NET': '#512bd4',
+        'F#': '#b845fc',
+        HCL: '#844FBA',
+        Elixir: '#6e4a7e',
+        Erlang: '#B83998',
+        'PowerShell': '#012456'
+    };
+
+    function getLanguageColor(language) {
+        if (!language) return '#6a737d';
+        return LANGUAGE_COLORS[language] || '#6a737d';
+    }
 
     function getCachedRepo(repoFullName) {
         try {
@@ -14,11 +63,11 @@
             }
             localStorage.removeItem(`gh-card-${repoFullName}`);
             return null;
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
-    
+
     function setCachedRepo(repoFullName, data) {
         try {
             const item = {
@@ -26,7 +75,7 @@
                 timestamp: Date.now()
             };
             localStorage.setItem(`gh-card-${repoFullName}`, JSON.stringify(item));
-        } catch(e) {}
+        } catch (e) { }
     }
 
     const repoIconSvg = `<svg class="repo-icon" height="20" width="20" viewBox="0 0 16 16" fill="var(--text-color)"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>`;
@@ -74,6 +123,14 @@
         const starHtml = `<a href="${stargazersUrl}" target="_blank" rel="noopener noreferrer">${starSvg}<span>${starCount}</span></a>`;
         const forkHtml = `<a href="${forkUrl}" target="_blank" rel="noopener noreferrer">${forkSvg}<span>${forkCount}</span></a>`;
 
+        const languageColor = getLanguageColor(language);
+        const languageHtml = `
+            <span class="stat-item language-item">
+                <span class="language-dot" style="background:${languageColor};"></span>
+                <span>${escapeHtml(language)}</span>
+            </span>
+        `;
+
         return `
             <div class="github-repo-card">
                 <div class="repo-header">
@@ -84,7 +141,7 @@
                 <div class="repo-stats">
                     <span class="stat-item">${starHtml}</span>
                     <span class="stat-item">${forkHtml}</span>
-                    <span class="stat-item">${codeSvg}<span>${escapeHtml(language)}</span></span>
+                    ${languageHtml}
                 </div>
             </div>
         `;
@@ -96,6 +153,14 @@
         const forkUrl = `${repoUrl}/fork`;
         const starHtml = `<a href="${stargazersUrl}" target="_blank" rel="noopener noreferrer">${starSvg}<span>--</span></a>`;
         const forkHtml = `<a href="${forkUrl}" target="_blank" rel="noopener noreferrer">${forkSvg}<span>--</span></a>`;
+
+        const errorLanguageHtml = `
+                <span class="stat-item language-item">
+                <span class="language-dot" style="background:#6a737d;"></span>
+                <span>Unknown</span>
+            </span>
+        `;
+
         return `
             <div class="github-repo-card">
                 <div class="repo-header">
@@ -106,7 +171,7 @@
                 <div class="repo-stats">
                     <span class="stat-item">${starHtml}</span>
                     <span class="stat-item">${forkHtml}</span>
-                    <span class="stat-item">${codeSvg}<span>Unknown</span></span>
+                    ${errorLanguageHtml}
                 </div>
             </div>
         `;
@@ -179,7 +244,7 @@
     }
 
     window.GithubCard = {
-        setTheme: function(mode) {
+        setTheme: function (mode) {
             const body = document.body;
             if (mode === 'dark') {
                 body.classList.add('dark');

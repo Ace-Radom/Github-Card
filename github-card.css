@@ -148,3 +148,19 @@ body.light {
 [data-github-repo] {
     height: 100%;
 }
+
+.language-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--description-color);
+}
+
+.language-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
