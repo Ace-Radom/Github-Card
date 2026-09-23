@@ -94,23 +94,23 @@
 
 :root {
     --bg-color: #f6f8fa;
-    --text-color: #24292f;
+    --text-color: #000000;
     --card-bg: #ffffff;
     --card-border: #e1e4e8;
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --description-color: #57606a;
+    --description-color: #33373b;
     --link-hover: #0969da;
 }
 
 :root[data-scheme="dark"] {
     --bg-color: #0d1117;
-    --text-color: #c9d1d9;
-    --card-bg: #161b22;
-    --card-border: #30363d;
+    --text-color: #ececec;
+    --card-bg: #424242;
+    --card-border: #5c5d5d;
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    --description-color: #8b949e;
+    --description-color: #aeafb1;
     --link-hover: #58a6ff;
 }
 
