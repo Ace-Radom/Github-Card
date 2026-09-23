@@ -106,8 +106,8 @@
 :root[data-scheme="dark"] {
     --bg-color: #0d1117;
     --text-color: #ececec;
-    --card-bg: #424242;
-    --card-border: #5c5d5d;
+    --card-bg: #161b23;
+    --card-border: #3e444d;
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     --description-color: #aeafb1;
