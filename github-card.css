@@ -103,7 +103,7 @@
     --link-hover: #0969da;
 }
 
-body.dark {
+:root[data-scheme="dark"] {
     --bg-color: #0d1117;
     --text-color: #c9d1d9;
     --card-bg: #161b22;
@@ -112,30 +112,6 @@ body.dark {
     --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     --description-color: #8b949e;
     --link-hover: #58a6ff;
-}
-
-@media (prefers-color-scheme: dark) {
-    body:not(.light) {
-        --bg-color: #0d1117;
-        --text-color: #c9d1d9;
-        --card-bg: #161b22;
-        --card-border: #30363d;
-        --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        --description-color: #8b949e;
-        --link-hover: #58a6ff;
-    }
-}
-
-body.light {
-    --bg-color: #f6f8fa;
-    --text-color: #24292f;
-    --card-bg: #ffffff;
-    --card-border: #e1e4e8;
-    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --description-color: #57606a;
-    --link-hover: #0969da;
 }
 
 .github-cards-grid {
